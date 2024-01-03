@@ -345,15 +345,6 @@ local function getStreams(all)
         -- the buffer has readonce bytes, so cut it to the actual size
         str = str:sub(1, v.stream:LastRead())
         processed = processed + #str
-        local codepage = ide:GetCodePage()
-        if codepage and FixUTF8(str) == nil and winapi then
-          -- this looks like invalid UTF-8 content, which may be in a different code page;
-          -- replace it with the UTF8, but do it line-by-line,
-          -- as it may be a buffered mix of different commands
-          str = str:gsub("[^\r\n]+", function(s)
-              return FixUTF8(s) == nil and winapi.encode(codepage, winapi.CP_UTF8, s) or s
-            end)
-        end
 
         local pfn
         if (v.callback) then
@@ -384,22 +375,19 @@ local function getStreams(all)
     local str = textout
     if not str then return end
     textout = nil
-    str = str .. "\r\n\r\n"
     for _,v in pairs(tab) do
       local pfn
       if v.callback then
         str,pfn = v.callback(str)
       end
       if str then
-        local s, len = toUnicode(str)
-        str = ffi.string(s, len*2)
+        str = str.."\n"
         v.stream:Write(str, #str)
       end
       updateInputMarker()
       pfn = pfn and pfn()
     end
   end
-
   readStream(streamins)
   readStream(streamerrs)
   sendStream(streamouts)
