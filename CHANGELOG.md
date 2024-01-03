@@ -1,5 +1,21 @@
 # LuaRT Studio Changelog
 
+## LuaRT Studio v1.7.0 (Jan 5 2024)
+- Updated: LuaRT Studio is now using the LuaRT 1.7.0 toolchain
+- New: New canvas examples `balls_demo.lua`
+- Fixed: Output pane now uses UNICODE or no encoding at all automaticaly (using standard Lua io functions wont show wrong characters anymore) (Fixes #21)
+- Fixed: Using Breakpoint will pause debugging when using LuaRT `ui` module and a Task to update the GUI
+- Fixed: tables with metatables are now pretty printed correctly
+- Fixed : Setting project arguments won't add a blank space to the first argument anymore (Fixes #22)
+
+## LuaRT Studio v1.6.0 (Nov 26 2023)
+- Updated: LuaRT Studio is now using the LuaRT 1.6.0 toolchain
+- New: New `Check for LuaRT update` command in `File` menu
+- New: New toolbar icon for the "Analyze" command
+- Updated: `Help` menu now contains links related to LuaRT webiste
+- Fixed: Debugging a script that contains a call to the `Task:wait()` method won't crash the program anymore (Fixes #20)
+- Fixed: Clicking on the "stop" button will now really stop the running program (Fixes #19)
+
 ## LuaRT Studio v1.4.0 (Apr 21 2023)
 - Updated LuaRT toolchain to v1.4.0
 - Updated `examples\` folder, now sorted by modules
