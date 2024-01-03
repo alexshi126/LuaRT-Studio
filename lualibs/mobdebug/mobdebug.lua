@@ -51,14 +51,6 @@ local genv = _G or _ENV
 local jit = rawget(genv, "jit")
 local MOAICoroutine = rawget(genv, "MOAICoroutine")
 
--- LuaRT Task:wait() freeze fix
-if _VERSION:match("^LuaRT") then
-  function sys.Task:wait()
-    while not self.terminated do
-      sleep()
-    end
-  end
-end
 
 local corocreate = ngx and coroutine._create or coroutine.create
 local cororesume = ngx and coroutine._resume or coroutine.resume
@@ -129,6 +121,16 @@ local debugee = function ()
   error(deferror)
 end
 local function q(s) return string.gsub(s, '([%(%)%.%%%+%-%*%?%[%^%$%]])','%%%1') end
+
+-- LuaRT Task:wait() freeze fix
+if _VERSION:match("^LuaRT") then 
+  sys.Task.wait = function(self)
+     while not self.terminated do
+       sleep()
+       if ui and type(ui.update) then ui.update() end
+     end
+ end
+end
 
 local serpent = (function() ---- include Serpent module for serialization
 local n, v = "serpent", "0.302" -- (C) 2012-18 Paul Kulchenko; MIT License
