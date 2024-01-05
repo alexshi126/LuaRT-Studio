@@ -3,6 +3,7 @@
 ## LuaRT Studio v1.7.0 (Jan 5 2024)
 - Updated: LuaRT Studio is now using the LuaRT 1.7.0 toolchain
 - New: New canvas examples `balls_demo.lua`
+- New: New `Open RTBuilder` command and toolbar icon 
 - Fixed: Output pane now uses UNICODE or no encoding at all automaticaly (using standard Lua io functions wont show wrong characters anymore) (Fixes #21)
 - Fixed: Using Breakpoint will pause debugging when using LuaRT `ui` module and a Task to update the GUI
 - Fixed: tables with metatables are now pretty printed correctly
