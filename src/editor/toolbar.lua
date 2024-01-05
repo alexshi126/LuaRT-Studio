@@ -12,7 +12,7 @@ ide.config.toolbar.icons = {
   ID.RUN, ID.STARTDEBUG, ID.STOPDEBUG, ID.DETACHDEBUG, ID.BREAK,
   ID.COMPILE, ID.STEP, ID.STEPOVER, ID.STEPOUT, ID.RUNTO,
   ID.SEPARATOR,
-  ID.BREAKPOINTTOGGLE, ID.BOOKMARKTOGGLE, ID.VIEWCALLSTACK, ID.SEPARATOR, ID.ANALYZE, [ID.FINDINFILES] = false,
+  ID.BREAKPOINTTOGGLE, ID.BOOKMARKTOGGLE, ID.VIEWCALLSTACK, ID.SEPARATOR, ID.ANALYZE, ID.SEPARATOR, ID.RTBUILDER, [ID.FINDINFILES] = false,
   [ID.COMPILE] = false,
 }
 
@@ -41,6 +41,7 @@ ide.config.toolbar.iconmap = {
   [ID.VIEWCALLSTACK] = {"DEBUG-CALLSTACK", TR("View the stack window")},
   [ID.VIEWWATCHWINDOW] = {"DEBUG-WATCH", TR("View the watch window")},
   [ID.ANALYZE] = {"ANALYZE", TR("Analyze the source code")},
+  [ID.RTBUILDER] = {"RTBUILDER", TR("Open with RTBuilder")},
   -- search toolbar
   [ID.FINDNEXT] = {"FIND-NEXT", TR("Find next")},
   [ID.FINDREPLACENEXT] = {"FIND-REPLACE-NEXT", TR("Replace next instance")},

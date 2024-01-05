@@ -299,12 +299,6 @@ end
 
 local frame = ide.frame
 
--- insert after "Compile" item
--- local _, menu, compilepos = ide:FindMenuItem(ID.COMPILE)
--- if compilepos then
---   menu:Insert(compilepos+1, ID.ANALYZE, TR("Analyze")..KSC(ID.ANALYZE), TR("Analyze the source code"))
--- end
-
 local function analyzeProgram(editor)
   -- save all files (if requested) for "infervalue" analysis to keep the changes on disk
   if ide.config.editor.saveallonrun and ide.config.staticanalyzer.infervalue then SaveAll(true) end
@@ -338,3 +332,31 @@ frame:Connect(ID.ANALYZE, wx.wxEVT_COMMAND_MENU_SELECTED,
   end)
 frame:Connect(ID.ANALYZE, wx.wxEVT_UPDATE_UI,
   function (event) event:Enable(ide:GetEditor() ~= nil) end)
+
+frame:Connect(ID.RTBUILDER, wx.wxEVT_UPDATE_UI,
+  function (event) 
+    local enabled = false
+    local editor = ide:GetEditor()
+    if editor ~= nil then
+      local editorText = editor:GetTextDyn()
+      enabled = editorText:find('^local ui = require "ui"') and editorText:find("return %w+, {.+}.*$")
+    end
+    event:Enable(enabled)
+end)
+
+frame:Connect(ID.RTBUILDER, wx.wxEVT_COMMAND_MENU_SELECTED,
+  function ()
+    ide:GetOutput():Activate()
+    local editor = ide:GetEditor()
+    -- save all files (if requested) for "infervalue" analysis to keep the changes on disk
+    if ide.config.editor.saveallonrun and ide.config.staticanalyzer.infervalue then SaveAll(true) end    
+    local doc = ide:GetDocument(editor)
+    local filePath = doc:GetFilePath() or doc:GetFileName()
+    local cmd = "../RTBuilder/RTBuilder.exe "
+    cmd = cmd.." "..filePath
+    local cwd = wx.wxFileName.GetCwd()
+    wx.wxFileName.SetCwd("../RTBuilder")
+    wx.wxExecute(cmd, wx.wxEXEC_ASYNC)
+    wx.wxFileName.SetCwd(cwd)
+  return true -- analyzed ok
+end)
