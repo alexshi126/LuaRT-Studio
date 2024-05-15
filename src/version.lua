@@ -1,1 +1,1 @@
-﻿ide.VERSION = [[1.7.1]]
+﻿ide.VERSION = [[1.8.0]]

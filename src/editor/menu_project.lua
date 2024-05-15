@@ -58,13 +58,6 @@ local debugMenuStopLabel = { [false]=debugMenu:GetLabelText(ID_STOPDEBUG), [true
 
 local interpreters
 local function selectInterpreter(id)
-  -- for id in pairs(interpreters) do
-  --   menuBar:Check(id, false)
-  --   menuBar:Enable(id, true)
-  -- end
-  -- menuBar:Check(id, true)
-  -- menuBar:Enable(id, false)
-
   local changed = ide.interpreter ~= interpreters[id]
   if changed then
     if ide.interpreter then PackageEventHandle("onInterpreterClose", ide.interpreter) end

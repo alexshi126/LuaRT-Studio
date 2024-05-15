@@ -615,6 +615,7 @@ SettingsRestoreFramePosition(ide.frame, "MainFrame")
 SettingsRestoreFileHistory(SetFileHistory)
 SettingsRestoreEditorSettings()
 SettingsRestoreProjectSession(FileTreeSetProjects)
+SettingsRestoreTheme()
 SettingsRestoreFileSession(function(tabs, params)
   if params and params.recovery
   then return SetOpenTabs(params)

@@ -11,7 +11,9 @@ local ide = ide
 local frame = ide.frame
 local menuBar = frame.menuBar
 
-local editMenu = ide:MakeMenu {
+local stylesmenu = ide:MakeMenu {}
+
+local editMenu = {
   { ID_UNDO, TR("&Undo")..KSC(ID_UNDO), TR("Undo last edit") },
   { ID_REDO, TR("&Redo")..KSC(ID_REDO), TR("Redo last edit undone") },
   { },
@@ -42,11 +44,55 @@ local editMenu = ide:MakeMenu {
     { ID_BOOKMARKPREV, TR("Go To Previous Bookmark")..KSC(ID_BOOKMARKPREV) },
   } },
   { },
-  { ID_PREFERENCES, TR("Preferences"), "", {
-    { ID_PREFERENCESSYSTEM, TR("Settings: System")..KSC(ID_PREFERENCESSYSTEM) },
-    { ID_PREFERENCESUSER, TR("Settings: User")..KSC(ID_PREFERENCESUSER) },
-  } },
+  { ID_PREFERENCES, TR("Preferences"), "", 
+  {
+      { ID_PREFERENCESTYLES, TR("Themes"), "Apply a new color theme", stylesmenu},
+      { ID_PREFERENCESSYSTEM, TR("Settings: System")..KSC(ID_PREFERENCESSYSTEM) },
+      { ID_PREFERENCESUSER, TR("Settings: User")..KSC(ID_PREFERENCESUSER) },
+    }
+  },
 }
+
+editMenu = ide:MakeMenu(editMenu)
+
+function SelectTheme(id)
+  local id = type(id) == "string" and stylesmenu:FindItem(id) or id
+  local item = stylesmenu:FindItem(id)
+  for i = 0, stylesmenu:GetMenuItemCount()-1 do
+    stylesmenu:FindItemByPosition(i):Check(false)
+  end
+  item:Check(true)
+  local theme = item:GetItemLabelText()
+  ApplyStyleConfig('cfg/tomorrow.lua', theme)
+  local c = ide.config
+  c.stylesoutshell = c.styles
+  c.styles.auxwindow = c.styles.text
+  ReApplySpecAndStyles()
+  SettingsSaveTheme(theme)
+end
+
+local function menuApplyStyle(event)
+  SelectTheme(event:GetId())
+end
+
+updateStyles = function ()
+  -- protect against Preferences->style menu not being present
+  -- if not ide:FindMenuItem(ID_PREFERENCESTYLES) then return end
+  local list = {}
+  local file = io.open(ide:GetRootPath().."/cfg/tomorrow.lua", "r")
+  if not file then return end
+  local tommorrow = file:read("*all")
+  file:close()
+  for theme in tommorrow:gmatch("(%w+) = {%s+Background%s+= H'") do
+    local id = ID("styles."..theme)
+    local item = wx.wxMenuItem(stylesmenu, id, theme, "", wx.wxITEM_CHECK)
+    stylesmenu:Append(item)
+    frame:Connect(id, wx.wxEVT_COMMAND_MENU_SELECTED, menuApplyStyle)
+  end
+end
+
+updateStyles()
+
 menuBar:Append(editMenu, TR("&Edit"))
 
 editMenu:Check(ID_AUTOCOMPLETEENABLE, ide.config.autocomplete)

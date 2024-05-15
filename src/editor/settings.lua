@@ -87,6 +87,26 @@ function SettingsRestoreFramePosition(window, windowName)
   settings:SetPath(path)
 end
 
+function SettingsSaveTheme(theme)
+  local path = settings:GetPath()
+  settings:SetPath("/theme")
+  settings:Write("style", theme)
+  settings:SetPath(path)
+end
+
+function SettingsRestoreTheme()
+  local path = settings:GetPath()
+  settings:SetPath("/theme")
+  local isdark = require("darkmode")
+  local res, theme = settings:Read("style", isdark and "DefaultDark" or "DefaultLight")
+  SelectTheme(tostring(theme))
+  local c = ide.config
+  c.stylesoutshell = c.styles
+  c.styles.auxwindow = c.styles.text
+  ReApplySpecAndStyles()
+  settings:SetPath(path)
+end
+
 function SettingsSaveFramePosition(window, windowName)
   local path = settings:GetPath()
   settings:SetPath("/"..windowName)

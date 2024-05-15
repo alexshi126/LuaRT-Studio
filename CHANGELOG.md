@@ -1,5 +1,12 @@
 # LuaRT Studio Changelog
 
+
+## LuaRT Studio v1.8.0 (May 15 2024)
+- New: Theme selection is now available in the new `Edit\Preferences\Theme` menu
+- New: `DarkDefault` and `LightDefault` themes
+- Fixed: Themes now applies to the left pane too (Projects/Symbols)
+- Fixed: Better dark mode autodetection for Windows 10/11
+
 ## LuaRT Studio v1.7.0 (Jan 5 2024)
 - Updated: LuaRT Studio is now using the LuaRT 1.7.0 toolchain
 - New: New canvas examples `balls_demo.lua`

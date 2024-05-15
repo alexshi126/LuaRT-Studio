@@ -24,6 +24,34 @@ local function H(c, bg) c = c:gsub('#','')
 end
 
 local colors = {
+  DefaultLight = {
+    Background  = H'ffffff',
+    CurrentLine = H'ffffff',
+    Selection   = H'd0d0d0',
+    Foreground  = H'3B3D3F',
+    Comment     = H'909497',
+    Red         = H'ae81ff',
+    Orange      = H'2080ff',
+    Yellow      = H'eab700',
+    Green       = H'ea6ac3',
+    Aqua        = H'333638',
+    Blue        = H'0066cc',
+    Purple      = H'e69900',
+  },
+  DefaultDark = {
+    Background  = H'101010',
+    CurrentLine = H'101010',
+    Selection   = H'606060',
+    Foreground  = H'909090',
+    Comment     = H'606467',
+    Red         = H'ae81ff',
+    Orange      = H'909497',
+    Yellow      = H'eab700',
+    Green       = H'ea6ac3',
+    Aqua        = H'909090',
+    Blue        = H'0066cc',
+    Purple      = H'e69900',  
+  },
   Tomorrow = {
     Background  = H'ffffff',
     CurrentLine = H'efefef',
@@ -223,6 +251,7 @@ local mixer = function(c, n, more)
 end
 
 local C = colors[theme] or colors.Tomorrow
+local isdefault = theme:find("^Default") or false
 return {
   -- wxstc.wxSTC_LUA_DEFAULT
   lexerdef = {fg = C.Foreground},
@@ -240,9 +269,9 @@ return {
   number = {fg = C.Red},
 
   -- wxstc.wxSTC_LUA_WORD, wxstc.wxSTC_LUA_WORD2-8
-  keywords0 = {fg = C.Blue, b = true},
-  keywords1 = {fg = C.Aqua, b = false},
-  keywords2 = {fg = C.Aqua, b = true},
+  keywords0 = {fg = C.Blue, b = not isdefault},
+  keywords1 = {fg = C.Purple, b = false},
+  keywords2 = {fg = C.Purple, b = not isdefault },
   keywords3 = {fg = C.Purple, b = false},
   keywords4 = {fg = C.Purple, b = false},
   keywords5 = {fg = C.Purple, b = false},
@@ -267,7 +296,14 @@ return {
   whitespace = {fg = C.Comment},
   edge = {},
 
-  indicator = {
+
+  indicator = isdefault and {
+    fncall = nil,
+    varlocal = nil,
+    varglobal = nil,
+    varmasking = nil,
+    varmasked = {},
+  } or {
     fncall = {fg = C.Purple, st = wxstc.wxSTC_INDIC_HIDDEN},
     --[[ other possible values are:
       wxSTC_INDIC_PLAIN	 Single-line underline
