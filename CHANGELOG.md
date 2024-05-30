@@ -1,18 +1,16 @@
 # LuaRT Studio Changelog
 
 
-## LuaRT Studio v1.8.0 (May 15 2024)
+## LuaRT Studio v1.8.0 (May 30 2024)
 - New: Theme selection is now available in the new `Edit\Preferences\Theme` menu
 - New: `DarkDefault` and `LightDefault` themes
-- Fixed: Themes now applies to the left pane too (Projects/Symbols)
-- Fixed: Better dark mode autodetection for Windows 10/11
-
-## LuaRT Studio v1.7.0 (Jan 5 2024)
-- Updated: LuaRT Studio is now using the LuaRT 1.7.0 toolchain
 - New: New canvas examples `balls_demo.lua`
 - New: New `Open RTBuilder` command and toolbar icon 
-- Fixed: Output pane now uses UNICODE or no encoding at all automaticaly (using standard Lua io functions wont show wrong characters anymore) (Fixes #21)
-- Fixed: Using Breakpoint will pause debugging when using LuaRT `ui` module and a Task to update the GUI
+- Updated: LuaRT Studio is now using the LuaRT 1.8.0 toolchain
+- Fixed: Themes now applies to the left pane too (Projects/Symbols)
+- Fixed: Better dark mode autodetection for Windows 10/11
+- Fixed: Output pane now uses UNICODE or no encoding at all as needed (using standard Lua `io` functions won't show wrong characters anymore) (Fixes #21)
+- Fixed: Using breakpoints will now pause debugging when using LuaRT `ui` module and a Task to update the GUI
 - Fixed: tables with metatables are now pretty printed correctly
 - Fixed : Setting project arguments won't add a blank space to the first argument anymore (Fixes #22)
 
